@@ -4,7 +4,6 @@ function ProductForm({ onAddProduct, onUpdateProduct, editingProduct }) {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
 
-  // Khi editingProduct thay đổi → cập nhật input
   useEffect(() => {
     if (editingProduct) {
       setName(editingProduct.name);
@@ -15,33 +14,42 @@ function ProductForm({ onAddProduct, onUpdateProduct, editingProduct }) {
     }
   }, [editingProduct]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!name || !price) {
-      alert('Vui lòng nhập đầy đủ thông tin');
-      return;
-    }
+  if (!name || !price) {
+    alert('Vui lòng nhập đầy đủ thông tin');
+    return;
+  }
 
+  try {
     if (editingProduct) {
-      // Cập nhật
       onUpdateProduct({
         ...editingProduct,
         name,
         price: parseFloat(price),
       });
     } else {
-      // Thêm mới
-      onAddProduct({
-        id: Date.now(),
-        name,
-        price: parseFloat(price),
+      const res = await fetch('http://localhost:1337/api/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          price: parseFloat(price),
+        }),
       });
+
+      const newProduct = await res.json();
+      onAddProduct(newProduct); 
     }
 
     setName('');
     setPrice('');
-  };
+  } catch (err) {
+    console.error('Lỗi khi gửi API:', err);
+  }
+};
+
 
   return (
     <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
@@ -76,3 +84,4 @@ function ProductForm({ onAddProduct, onUpdateProduct, editingProduct }) {
 }
 
 export default ProductForm;
+  

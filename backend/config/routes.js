@@ -20,7 +20,11 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
-  'GET /api/ping': 'PingController.ping',
+'GET /api/products': 'ProductController.find',
+'POST /api/products': 'ProductController.create',
+'PUT /api/products/:id': 'ProductController.update',
+'DELETE /api/products/:id': 'ProductController.delete',
+
 
 
 

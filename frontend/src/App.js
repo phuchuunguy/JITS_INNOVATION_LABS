@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductForm from './ProductForm';
 import ProductList from './ProductList';
 
@@ -6,16 +6,35 @@ function App() {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
 
-  const addProduct = (product) => {
-    setProducts([...products, product]);
-  };
+  const addProduct = (newProduct) => {
+  const isDuplicate = products.some(
+    (p) =>
+      p.name.trim().toLowerCase() === newProduct.name.trim().toLowerCase() &&
+      p.price === newProduct.price
+  );
+
+  if (isDuplicate) {
+    alert(`Sản phẩm "${newProduct.name}" với giá ${newProduct.price} VNĐ đã tồn tại.`);
+    return;
+  }
+
+  setProducts([...products, newProduct]);
+};
+
+
+  useEffect(() => {
+    fetch('http://localhost:1337/api/products')
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.error('Lỗi tải sản phẩm:', err));
+  }, []);
 
   const updateProduct = (updatedProduct) => {
     const updatedList = products.map((p) =>
       p.id === updatedProduct.id ? updatedProduct : p
     );
     setProducts(updatedList);
-    setEditingProduct(null); // clear editing state
+    setEditingProduct(null); 
   };
 
   const deleteProduct = (id) => {
