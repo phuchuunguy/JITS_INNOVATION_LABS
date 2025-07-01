@@ -1,0 +1,30 @@
+body.light {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+body.dark {
+  background-color: #222;
+  color: #f8f8f8;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.navbar a {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.theme-toggle-btn {
+  padding: 6px 12px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+}
