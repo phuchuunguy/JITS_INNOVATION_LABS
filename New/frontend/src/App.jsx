@@ -6,7 +6,8 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);   
   const itemsPerPage = 5; 
 
-  const [newProduct, setNewProduct] = useState({ name: '', price: '', description: '' });                             
+  const [newProduct, setNewProduct] = useState({ name: '', price: '', description: '' });     
+  const [lastVisit, setLastVisit] = useState('');                         
 
   const fetchProducts = async () => {
     const res = await fetch('http://localhost:1337/product'); 
@@ -15,6 +16,11 @@ function App() {
   };
 
   useEffect(() => {
+    const now = new Date().toISOString();
+    localStorage.setItem("lastVisit", now);
+    setLastVisit(now);
+
+    fetchProducts();
     fetchProducts();
   }, []);
 
@@ -51,6 +57,13 @@ function App() {
       method: 'DELETE'
     });
     fetchProducts();
+  };
+  console.log("products:", products);
+
+  const formatDate = (iso) => {
+    if (!iso) return "Chưa xác định";
+    const date = new Date(iso);
+    return date.toLocaleString("vi-VN");
   };
 
   return (
@@ -150,6 +163,9 @@ function App() {
           Sau ➡️
         </button>
       </div>
+      <footer className="mt-10 text-sm text-gray-500 text-center">
+        🕒 Lần truy cập gần nhất: {formatDate(lastVisit)}
+      </footer>
     </div>
   );
 }
