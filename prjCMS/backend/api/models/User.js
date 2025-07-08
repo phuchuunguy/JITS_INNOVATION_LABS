@@ -1,34 +1,18 @@
-/**
- * User.js
- *
- * @description :: A model definition represents a database table/collection.
- * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
- */
+const bcrypt = require('bcrypt');
 
 module.exports = {
-
   attributes: {
-
-    //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
-    //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
-    //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
-
-    username: { type: 'string' },
-
-    email: { type: 'string' },
-
-    password: { type: 'string' }
-
-    //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
-    //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
-    //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
-
-
-    //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
-    //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
-    //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-
+    username: { type: 'string', required: true, unique: true },
+    password: { type: 'string', required: true }
   },
 
-};
+  // customToJSON: function () {
+  //   return _.omit(this, ['password']);
+  // },
 
+  // beforeCreate: async function (user, proceed) {
+  //   const hash = await bcrypt.hash(user.password, 10);
+  //   user.password = hash;
+  //   return proceed();
+  // }
+};

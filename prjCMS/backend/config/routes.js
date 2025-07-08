@@ -6,5 +6,4 @@ module.exports.routes = {
   'DELETE /products/:id':        'ProductController.destroy',
   'POST   /register':            'AuthController.register',
   'POST   /login':               'AuthController.login',
-
 };
